@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Available Cars for Rent</h2>
+<div class="cards-container">
+    {% for car in cars %}
+    <div class="card">
+        <img src="{{ url_for('static', filename='uploads/' + car.image) }}" alt="{{ car.brand }} {{ car.model }}">
+        <h3>{{ car.brand }} {{ car.model }}</h3>
+        <p>Price: ${{ car.price }} / day</p>
+        {% if 'user_id' in session %}
+        <a href="{{ url_for('book', id=car.id) }}"><button>Book Now</button></a>
+        {% else %}
+        <a href="{{ url_for('login') }}"><button>Login to Book</button></a>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

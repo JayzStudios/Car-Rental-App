@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>My Bookings</h2>
+{% if bookings %}
+<table class="styled-table">
+<tr>
+    <th>ID</th>
+    <th>Car Model</th>
+    <th>Price</th>
+    <th>Status</th>
+</tr>
+{% for b in bookings %}
+<tr>
+    <td>{{ b.id }}</td>
+    <td>{{ b.model }}</td>
+    <td>${{ b.price }}</td>
+    <td>{{ b.status }}</td>
+</tr>
+{% endfor %}
+</table>
+{% else %}
+<p>You have no bookings yet. <a href="{{ url_for('index') }}">Book a car now</a>.</p>
+{% endif %}
+{% endblock %}

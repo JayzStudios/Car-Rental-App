@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Car Rental System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<header>
+    <h1>🚗 Car Rental System</h1>
+</header>
+
+<nav>
+    <a href="{{ url_for('index') }}">Home</a>
+    {% if 'user_id' not in session %}
+        <a href="{{ url_for('register') }}">Register</a>
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="{{ url_for('contact') }}">Contact</a>
+        <a href="{{ url_for('testimonial') }}">Testimonials</a>
+    {% else %}
+        {% if session.get('role')=='admin' %}
+            <a href="{{ url_for('admin') }}">Admin Dashboard</a>
+        {% else %}
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        {% endif %}
+        <a href="{{ url_for('logout') }}">Logout</a>
+    {% endif %}
+</nav>
+
+<div class="container">
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div class="flash">
+      {% for msg in messages %}
+        <p>{{ msg }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+{% block content %}{% endblock %}
+</div>
+
+</body>
+</html>

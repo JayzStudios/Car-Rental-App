@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>Admin Dashboard</h2>
+
+<h3>📊 Statistics</h3>
+<ul>
+    <li>Total Users: {{ stats.users }}</li>
+    <li>Total Vehicles: {{ stats.cars }}</li>
+    <li>Total Bookings: {{ stats.bookings }}</li>
+    <li>Total Queries: {{ stats.queries }}</li>
+</ul>
+
+<hr>
+
+<h3>🚗 Add Vehicle</h3>
+<form method="post" action="/add_car" enctype="multipart/form-data">
+    <input name="brand" placeholder="Brand" required>
+    <input name="model" placeholder="Model" required>
+    <input name="price" placeholder="Price" type="number" required>
+    <input type="file" name="image" required>
+    <button type="submit">Add Vehicle</button>
+</form>
+
+<hr>
+
+<h3>🚙 Manage Vehicles</h3>
+{% for car in cars %}
+<div class="card">
+    <img src="{{ url_for('static', filename='uploads/' + car.image) }}" width="200">
+    <p><b>{{ car.brand }} {{ car.model }}</b> - ${{ car.price }}</p>
+    <a href="/delete_car/{{ car.id }}">
+        <button style="background:red;">Delete</button>
+    </a>
+</div>
+{% endfor %}
+
+<hr>
+
+<h3>📅 Manage Bookings</h3>
+<table border="1" cellpadding="8">
+<tr>
+    <th>ID</th>
+    <th>User</th>
+    <th>Car</th>
+    <th>Status</th>
+    <th>Action</th>
+</tr>
+{% for b in bookings %}
+<tr>
+    <td>{{ b.id }}</td>
+    <td>{{ b.name }}</td>
+    <td>{{ b.model }}</td>
+    <td>{{ b.status }}</td>
+    <td>
+        <a href="/booking_status/{{ b.id }}/Confirmed">
+            <button>Confirm</button>
+        </a>
+        <a href="/booking_status/{{ b.id }}/Cancelled">
+            <button style="background:red;">Cancel</button>
+        </a>
+    </td>
+</tr>
+{% endfor %}
+</table>
+
+<hr>
+
+<h3>💬 Manage Testimonials</h3>
+<table border="1" cellpadding="8">
+<tr>
+    <th>User</th>
+    <th>Message</th>
+    <th>Status</th>
+    <th>Action</th>
+</tr>
+{% for t in testimonials %}
+<tr>
+    <td>{{ t.user }}</td>
+    <td>{{ t.message }}</td>
+    <td>{{ t.status }}</td>
+    <td>
+        <a href="/testimonial_status/{{ t.id }}/Active">
+            <button>Activate</button>
+        </a>
+        <a href="/testimonial_status/{{ t.id }}/Inactive">
+            <button style="background:red;">Deactivate</button>
+        </a>
+    </td>
+</tr>
+{% endfor %}
+</table>
+
+<hr>
+
+<h3>👥 Registered Users</h3>
+<table border="1" cellpadding="8">
+<tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Role</th>
+</tr>
+{% for u in users %}
+<tr>
+    <td>{{ u.name }}</td>
+    <td>{{ u.email }}</td>
+    <td>{{ u.role }}</td>
+</tr>
+{% endfor %}
+</table>
+
+<hr>
+
+<h3>📨 Contact Queries</h3>
+<table border="1" cellpadding="8">
+<tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Message</th>
+</tr>
+{% for q in queries %}
+<tr>
+    <td>{{ q.name }}</td>
+    <td>{{ q.email }}</td>
+    <td>{{ q.message }}</td>
+</tr>
+{% endfor %}
+</table>
+
+<hr>
+
+<h3>🔑 Change Admin Password</h3>
+<form method="post" action="/change_password">
+    <input type="password" name="password" placeholder="New Password" required>
+    <button type="submit">Change Password</button>
+</form>
+
+{% endblock %}

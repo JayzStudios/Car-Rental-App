@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Testimonials</h2>
+
+<form method="post" class="form-box">
+    <textarea name="message" placeholder="Write your testimonial..." required></textarea>
+    <button type="submit">Submit</button>
+</form>
+
+<h3>What our users say:</h3>
+<div class="cards-container">
+    {% for t in testimonials %}
+    <div class="card">
+        <p>{{ t.message }}</p>
+        <small>— {{ t.user }}</small>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
